@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="shortcut icon" href="images/icon.png" />
+		<meta charset="windows-1251">
+	<title>Генератор лабиринта</title>
+	<script src="js/jquery.js"></script>
+	<style>
+
+*{
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+}
+
+body {
+	background-color: #dcdcdc;
+	cursor: default;
+	overflow: hidden;
+}
+
+#canvas {
+	background-color: #ffffff;
+		position: absolute;
+		left: 50%;
+		top: 50%;
+			transform: translate( -50%, -50% );
+}
+
+#menu {
+	background-color: #ffffff;
+	border: 2px solid #dcdcdc;
+		position: absolute;
+		left: 0px;
+		bottom: 0px;
+			width: 100%;
+			height: 30px;
+				font-size: 20px;
+		overflow: hidden;
+		display: flex;
+}
+
+	#statusbar {
+		width: 130px;
+		padding-left: 20px;
+	}
+	
+	.menu-button {
+		padding-left: 30px;
+		padding-right: 30px;
+		text-align: center;
+		cursor: pointer;
+	}
+		.menu-button:hover {
+			background-color: #e8e8e8;
+		}
+
+#cover {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate( -50%, -50% );
+		
+}
+
+#splash {
+	position: absolute;
+	left: 0px;
+	bottom: 0px;
+		width: 100%;
+		height: 100%;
+			background-color: #000000;
+			opacity: 0.5;
+}
+	
+	#output {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+			transform: translate( -50%, -50% );
+				width: 1000px;
+				height: 480px;
+		padding: 15px;
+		font-size: 9px;
+		text-align: center;
+	}
+
+	</style>
+	<script>
+
+var canvas;
+var ctx;
+var poleX = 91;
+var poleY = 42;
+var step = 15;
+var matrix;
+var flag = 0;
+
+var const_setka = 1;
+var const_rulers = 1;
+
+$(function() { 
+	$("body").hide();
+	$("#splash").hide();
+	$("#output").hide();
+})
+
+function start()
+{
+	var img = new Image();
+	img.src = "img/cover.png";
+	
+
+	canvas = document.getElementById('canvas');
+	ctx = canvas.getContext('2d');
+		document.all.canvas.style.width = poleX * step;
+		document.all.canvas.style.height = poleY * step;
+		canvas.width = poleX * step;
+		canvas.height = poleY * step;
+		//canvas.width = $(document).width();
+		//canvas.height = $(document).height();
+			//poleX = Math.floor( canvas.width / step );
+			//poleY = Math.floor( canvas.height / step );
+	
+	create_matrix(  )
+	
+	set_opacity(  )
+	
+	window.setInterval( "refresh()", 100 );
+	
+	$("body").fadeIn("slow");
+}
+
+function set_opacity()
+{
+	if( document.all.cover.src )		{ $("#canvas").css("opacity", "0.8"); }
+	else	{ $("#canvas").css("opacity", "1"); }
+}
+
+function refresh()
+{
+	//cover()
+	drawer(  );
+	grid(  );
+}
+
+function create_matrix(  )
+{
+	matrix = [  ];
+		for( i=0; i<poleX; i++ )		{
+			matrix[ i ] = [  ];
+				for( j=0; j<poleY; j++ )		{
+					matrix[ i ][ j ] = 0;
+												}
+										}
+}
+
+function load_matrix(  )
+{
+	txt = String( document.all.output.innerText ).replace(/\r?\n/g, "")
+	txt = txt.split(" ");
+	c = 0;
+	
+		matrix = [  ];
+		for( i=0; i<poleX; i++ )		{
+			matrix[ i ] = [  ];
+				for( j=0; j<poleY; j++ )		{
+					try { matrix[ i ][ j ] = Number( txt[ c ] ); }
+					catch( err ) { matrix[ i ][ j ] = 0; }
+					c++;
+												}
+										}
+}
+
+function cover(  )
+{
+		//img.onload = function() {
+			x = canvas.width / 2 - img.width / 2;
+			y = canvas.height / 2 - img.height / 2;
+				ctx.drawImage(img, x, y);
+		//}
+		
+}
+
+function grid()
+{ 
+		
+	//сетка
+	if( const_setka == 1 )		{
+	
+	for( i=0; i< poleX; i++ )		{
+		for( j=0; j< poleY + 1; j++ )			{
+	
+			ctx.beginPath();
+            ctx.rect(i*step, j*step, i*step+step, j*step+step);
+            ctx.closePath();
+            ctx.strokeStyle = "#dcdcdc";
+            ctx.stroke();
+	
+											}
+									}
+									
+								}
+	
+	//направляющие
+	
+	if( const_rulers == 1 )		{
+	
+		x = Math.floor( poleX / 2 );
+		y = poleY;
+		
+			ctx.beginPath();
+            ctx.rect(x * step, 0, step, poleY * step);
+            ctx.closePath();
+			//ctx.lineWidth = "0.5";
+            ctx.strokeStyle = "red";
+            ctx.stroke();
+			
+		x = poleY;
+		y = Math.floor( poleY / 2 );
+		
+			ctx.beginPath();
+            ctx.rect(0, y * step, poleX * step, step);
+            ctx.closePath();
+			//ctx.lineWidth = "0.5";
+            ctx.strokeStyle = "red";
+            ctx.stroke();
+						
+									}
+	
+}
+
+function drawer(  )
+{
+	for( i=0; i< poleX; i++ )		{
+		for( j=0; j< poleY + 1; j++ )			{
+		
+			if( matrix[ i ][ j ] )		{
+				ctx.beginPath();
+				ctx.fillStyle = "#000000";
+				ctx.fillRect(i*step, j*step, step, step);
+				ctx.closePath();
+				ctx.stroke();
+										}
+			else	{
+				ctx.beginPath();
+				ctx.clearRect(i*step, j*step, step, step);
+				ctx.closePath();
+				ctx.stroke();
+					}
+			
+												}
+									}
+}
+
+function get_mouse(  )
+{
+	//x = Math.floor( ( event.pageX - $("#canvas").offset().left ) / 10 ); //Math.floor( event.x / step );
+	//y = Math.floor( ( event.pageY - $("#canvas").offset().top ) / 10 ); //Math.floor( event.y / step );
+	x = Math.floor( event.pageX / step );
+	y = Math.floor( event.pageY / step );
+	
+	document.all.statusbar.innerHTML = "x: " +x+ " y: " +y;
+	
+	if( flag == 1 )		{ matrix[ x ][ y ] = 1; }
+	if( flag == 2 )		{ matrix[ x ][ y ] = 0; }
+}
+
+function send_mouse( pressed )
+{
+	if( !pressed )	{ 	flag = 0; return;	 }
+		if( event.button == 2 )		{ flag = 2; }
+		if( event.button == 0 )		{ flag = 1; }
+}
+
+function roll_img(  )
+{
+	if( event.shiftKey == true )		{
+		document.all.cover.width += event.wheelDelta;
+		document.all.cover.height += event.wheelDelta;
+									}
+	else	{
+		x = Number( $("#canvas").css("opacity") ) + event.wheelDelta * -1 / Math.abs( event.wheelDelta ) / 10;
+		$("#canvas").css("opacity", x);
+			}
+}
+
+function keys()
+{
+	if( event.keyCode == 27 )	{ 
+		if ( $("#splash").is(":visible") ) 		{ 
+			toggle_splash( 1 );
+				return;
+													}
+		$( "#menu" ).toggle();
+	}
+}
+
+function toggle_setka()
+{
+	if( const_setka == 1 )		{ const_setka = 0; }
+	else	{ const_setka = 1; }
+}
+
+function toggle_rulers()
+{
+	if( const_rulers == 1 )		{ const_rulers = 0; }
+	else	{ const_rulers = 1; }
+}
+
+function toggle_splash( zval )
+{
+	if( zval == 1 )		{
+		$( "#splash" ).fadeOut("fast");
+		$( "#output" ).fadeOut("fast");
+			return;
+						}
+
+	$("#splash").fadeIn("fast");
+	$("#output").fadeIn("fast");
+	
+	/*
+	document.all.output.innerText = "";	
+		for( j=0; j<poleY; j++ )		{
+			for( i=0; i<poleX; i++ )		{
+				document.all.output.innerHTML += matrix[ i ][ j ]+ " ";
+											}
+			document.all.output.innerHTML += "\n";
+										}
+	document.all.output.focus();
+	*/
+	
+	document.all.output.innerText = "";	
+		for( i=0; i<poleX; i++ )		{
+			for( j=0; j<poleY; j++ )		{
+			
+				document.all.output.innerHTML += matrix[ i ][ j ]+ " ";
+											}
+			document.all.output.innerHTML += "\n";
+										}
+	document.all.output.focus();
+}
+
+function clean()
+{
+	if( confirm("Очистить холст?") )	{ create_matrix(  ); }
+}
+
+function toggle_img()
+{
+	zimg = prompt("Введите адрес картинки: ", "");
+		if( !zimg  )	{ return; }
+			document.all.cover.src = zimg;
+}
+
+	</script>
+</head>
+<body onLoad="start()" oncontextmenu="return false" onkeyup="keys()">
+
+	<img src="img/cover.png" id="cover">
+
+	<canvas id="canvas" onmousemove="get_mouse()" onmousedown="send_mouse( 1 ); get_mouse(  );" onmouseup="send_mouse( 0 ); get_mouse(  );" onmouseleave="send_mouse( 0 )" onmousewheel="roll_img(  )" onselectstart="return false;">no canvas</canvas>
+	
+	<div id="menu">
+		<div>Координаты: </div>
+		<div id="statusbar"></div>
+		<div class="menu-button" onClick="toggle_setka()">Сетка</div>
+		<div class="menu-button" onClick="toggle_rulers()">Направляющие</div>
+		<div class="menu-button" onClick="toggle_img()">Картинка</div>
+		<div class="menu-button">Проверка</div>
+		<div class="menu-button" onClick="toggle_splash()">Код</div>
+		<div class="menu-button" onclick="clean()">Очистка</div>
+	</div>
+	
+	<div id="splash" onmouseup="toggle_splash( 1 )"></div>
+	<textarea id="output" onChange="load_matrix(  )"></textarea>
+
+</body>
+</html>
