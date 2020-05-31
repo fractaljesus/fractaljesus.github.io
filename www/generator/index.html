@@ -375,12 +375,12 @@ function toggle_splash( zval )
 
 function clean()
 {
-	if( confirm("Î÷èñòèòü õîëñò?") )	{ create_matrix(  ); }
+	if( confirm("Очистить холст?") )	{ create_matrix(  ); }
 }
 
 function toggle_img()
 {
-	zimg = prompt("Ââåäèòå àäðåñ êàðòèíêè: ", "");
+	zimg = prompt("Вставьте адрес картинки: ", "");
 		if( !zimg  )	{ return; }
 			document.all.cover.src = zimg;
 }
@@ -408,13 +408,13 @@ function toggle_load()
 	<div id="menu" onselectstart="return false;">
 		<div>Êîîðäèíàòû: </div>
 		<div id="statusbar"></div>
-		<div class="menu-button" onClick="toggle_setka()">Ñåòêà</div>
-		<div class="menu-button" onClick="toggle_rulers()">Ëèíèè</div>
-		<div class="menu-button" onClick="toggle_img()">Ôîí</div>
-		<div class="menu-button">Çàëèâêà</div>
-		<div class="menu-button" onclick="clean()">Î÷èñòêà</div>
-		<div class="menu-button" onClick="toggle_splash()">Êîä</div>
-		<div class="menu-button" onClick="click_load()" style="display: none;">Çàãðóçèòü</div>
+		<div class="menu-button" onClick="toggle_setka()">Сетка</div>
+		<div class="menu-button" onClick="toggle_rulers()">Линейка</div>
+		<div class="menu-button" onClick="toggle_img()">Фон</div>
+		<div class="menu-button">Заливка</div>
+		<div class="menu-button" onclick="clean()">Очистка</div>
+		<div class="menu-button" onClick="toggle_splash()">Код</div>
+		<div class="menu-button" onClick="click_load()" style="display: none;">Загрузить</div>
 			<input type="file" id="button_load" style="display: none;" onChange="toggle_load()">
 	</div>
 	
