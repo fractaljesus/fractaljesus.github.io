@@ -134,7 +134,7 @@ function start()
 
 function set_opacity()
 {
-	if( document.all.cover.src )		{ $("#canvas").css("opacity", "0.8"); }
+	if( document.all.cover.src != "" )		{ $("#canvas").css("opacity", "0.8"); }
 	else	{ $("#canvas").css("opacity", "1"); }
 }
 
