@@ -110,10 +110,7 @@ $(function() {
 
 function start()
 {
-	var img = new Image();
-	img.src = "img/cover.png";
 	
-
 	canvas = document.getElementById('canvas');
 	ctx = canvas.getContext('2d');
 		document.all.canvas.style.width = poleX * step;
@@ -127,7 +124,7 @@ function start()
 	
 	create_matrix(  )
 	
-	//set_opacity(  )
+	set_opacity(  )
 	
 	window.setInterval( "refresh()", 100 );
 	
@@ -137,7 +134,7 @@ function start()
 
 function set_opacity()
 {
-	if( document.all.cover.src != "" )		{ $("#canvas").css("opacity", "0.8"); }
+	if( document.all.cover.src )		{ $("#canvas").css("opacity", "0.8"); }
 	else	{ $("#canvas").css("opacity", "1"); }
 }
 
@@ -185,7 +182,7 @@ function cover(  )
 function grid()
 { 
 		
-	//ñåòêà
+	//сетка
 	if( const_setka == 1 )		{
 	
 	for( i=0; i< poleX; i++ )		{
@@ -202,11 +199,11 @@ function grid()
 									
 								}
 	
-	//íàïðàâëÿþùèå
+	//направляющие
 	
 	if( const_rulers == 1 )		{
 	
-		//âåðòèêàëüíàÿ
+		//вертикальная
 		x = Math.floor( poleX / 2 );
 		y = poleY;
 		
@@ -218,7 +215,7 @@ function grid()
             ctx.stroke();
 			
 			
-		//ãîðèçîíòàëüíàÿ
+		//горизонтальная
 		x = poleY;
 		y = Math.floor( poleY / 2 );
 		
@@ -229,7 +226,7 @@ function grid()
             ctx.strokeStyle = "red";
             ctx.stroke();
 			
-		//êóðñîð âåðòèêàëüíûé
+		//курсор вертикальный
 		x = mouseX;
 		console.log(x)
 		y = poleY;
@@ -241,7 +238,7 @@ function grid()
             ctx.strokeStyle = "red";
             ctx.stroke();
 			
-		//êóðñîð ãîðèçîíòàëüíûé
+		//курсор горизонтальный
 		x = poleY;
 		y = mouseY;
 		
@@ -380,7 +377,7 @@ function clean()
 
 function toggle_img()
 {
-	zimg = prompt("Вставьте адрес картинки: ", "");
+	zimg = prompt("Введите адрес картинки: ", "");
 		if( !zimg  )	{ return; }
 			document.all.cover.src = zimg;
 }
@@ -409,7 +406,7 @@ function toggle_load()
 		<div>Координаты: </div>
 		<div id="statusbar"></div>
 		<div class="menu-button" onClick="toggle_setka()">Сетка</div>
-		<div class="menu-button" onClick="toggle_rulers()">Линейка</div>
+		<div class="menu-button" onClick="toggle_rulers()">Линии</div>
 		<div class="menu-button" onClick="toggle_img()">Фон</div>
 		<div class="menu-button">Заливка</div>
 		<div class="menu-button" onclick="clean()">Очистка</div>
