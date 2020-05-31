@@ -3,7 +3,7 @@
 <head>
 	<link rel="shortcut icon" href="../img/generator_icon.png" />
 		<meta charset="windows-1251">
-	<title>Генератор лабиринта</title>
+	<title>Р“РµРЅРµСЂР°С‚РѕСЂ Р»Р°Р±РёСЂРёРЅС‚Р°</title>
 	<script src="../js/jquery.js"></script>
 	<style>
 
@@ -185,7 +185,7 @@ function cover(  )
 function grid()
 { 
 		
-	//сетка
+	//Г±ГҐГІГЄГ 
 	if( const_setka == 1 )		{
 	
 	for( i=0; i< poleX; i++ )		{
@@ -202,11 +202,11 @@ function grid()
 									
 								}
 	
-	//направляющие
+	//Г­Г ГЇГ°Г ГўГ«ГїГѕГ№ГЁГҐ
 	
 	if( const_rulers == 1 )		{
 	
-		//вертикальная
+		//ГўГҐГ°ГІГЁГЄГ Г«ГјГ­Г Гї
 		x = Math.floor( poleX / 2 );
 		y = poleY;
 		
@@ -218,7 +218,7 @@ function grid()
             ctx.stroke();
 			
 			
-		//горизонтальная
+		//ГЈГ®Г°ГЁГ§Г®Г­ГІГ Г«ГјГ­Г Гї
 		x = poleY;
 		y = Math.floor( poleY / 2 );
 		
@@ -229,7 +229,7 @@ function grid()
             ctx.strokeStyle = "red";
             ctx.stroke();
 			
-		//курсор вертикальный
+		//ГЄГіГ°Г±Г®Г° ГўГҐГ°ГІГЁГЄГ Г«ГјГ­Г»Г©
 		x = mouseX;
 		console.log(x)
 		y = poleY;
@@ -241,7 +241,7 @@ function grid()
             ctx.strokeStyle = "red";
             ctx.stroke();
 			
-		//курсор горизонтальный
+		//ГЄГіГ°Г±Г®Г° ГЈГ®Г°ГЁГ§Г®Г­ГІГ Г«ГјГ­Г»Г©
 		x = poleY;
 		y = mouseY;
 		
@@ -375,12 +375,12 @@ function toggle_splash( zval )
 
 function clean()
 {
-	if( confirm("Очистить холст?") )	{ create_matrix(  ); }
+	if( confirm("ГЋГ·ГЁГ±ГІГЁГІГј ГµГ®Г«Г±ГІ?") )	{ create_matrix(  ); }
 }
 
 function toggle_img()
 {
-	zimg = prompt("Введите адрес картинки: ", "");
+	zimg = prompt("Г‚ГўГҐГ¤ГЁГІГҐ Г Г¤Г°ГҐГ± ГЄГ Г°ГІГЁГ­ГЄГЁ: ", "");
 		if( !zimg  )	{ return; }
 			document.all.cover.src = zimg;
 }
@@ -406,15 +406,15 @@ function toggle_load()
 	<canvas id="canvas" onmousemove="get_mouse()" onmousedown="send_mouse( 1 ); get_mouse(  );" onmouseup="send_mouse( 0 ); get_mouse(  );" onmouseleave="send_mouse( 0 )" onmousewheel="roll_img(  )" onselectstart="return false;">no canvas</canvas>
 	
 	<div id="menu" onselectstart="return false;">
-		<div>Координаты: </div>
+		<div>ГЉГ®Г®Г°Г¤ГЁГ­Г ГІГ»: </div>
 		<div id="statusbar"></div>
-		<div class="menu-button" onClick="toggle_setka()">Сетка</div>
-		<div class="menu-button" onClick="toggle_rulers()">Линии</div>
-		<div class="menu-button" onClick="toggle_img()">Фон</div>
-		<div class="menu-button">Заливка</div>
-		<div class="menu-button" onclick="clean()">Очистка</div>
-		<div class="menu-button" onClick="toggle_splash()">Код</div>
-		<div class="menu-button" onClick="click_load()" style="display: none;">Загрузить</div>
+		<div class="menu-button" onClick="toggle_setka()">Г‘ГҐГІГЄГ </div>
+		<div class="menu-button" onClick="toggle_rulers()">Г‹ГЁГ­ГЁГЁ</div>
+		<div class="menu-button" onClick="toggle_img()">Г”Г®Г­</div>
+		<div class="menu-button">Г‡Г Г«ГЁГўГЄГ </div>
+		<div class="menu-button" onclick="clean()">ГЋГ·ГЁГ±ГІГЄГ </div>
+		<div class="menu-button" onClick="toggle_splash()">ГЉГ®Г¤</div>
+		<div class="menu-button" onClick="click_load()" style="display: none;">Г‡Г ГЈГ°ГіГ§ГЁГІГј</div>
 			<input type="file" id="button_load" style="display: none;" onChange="toggle_load()">
 	</div>
 	
