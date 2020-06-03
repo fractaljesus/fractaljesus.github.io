@@ -4,7 +4,7 @@
 	<link rel="shortcut icon" href="../img/favicon.png" />
 		<meta charset="windows-1251">
 	<title>Stimpy mouse</title>
-	<script src="../js/jquery.js"></script>
+	<script src="fractaljesus.github.io/blob/master/www/js/jquery.js"></script>
 	<script src="../js/stimpy.js"></script>
 	<style>
 
@@ -32,8 +32,8 @@ body {
 	</style>
 	<script>
 
-var color1 = "#ffffff"; 	//"#bd8456";		// земля
-var color2 = "#000000";		// стены
+var color1 = "#ffffff"; 	//"#bd8456";		// Г§ГҐГ¬Г«Гї
+var color2 = "#000000";		// Г±ГІГҐГ­Г»
 
 var canvas;
 var ctx;
@@ -107,7 +107,7 @@ function create_mobs(  )
 
 function create_matrix(  )
 {
-	$('#result').load('../levels/крупный.txt', function() {
+	$('#result').load('../levels/ГЄГ°ГіГЇГ­Г»Г©.txt', function() {
 	
 		txt = String( document.all.result.innerText ).split("\n");
 
@@ -125,7 +125,7 @@ function create_matrix(  )
 
 function drawer(  )
 {
-	//матрица
+	//Г¬Г ГІГ°ГЁГ¶Г 
 	for( i=0; i< poleX; i++ )		{
 		for( j=0; j< poleY + 1; j++ )			{
 		
@@ -147,13 +147,13 @@ function drawer(  )
 			
 												}
 									}
-	//мобы
+	//Г¬Г®ГЎГ»
 	for( i=0; i< mobs.length; i++ )		{	
 	
 		try { ctx.drawImage( mobs[i].img, mobs[i].x*step - mobs[i].img.width / 3, mobs[i].y*step - mobs[i].img.width / 3 ); } 	catch(err){  }
 			
 		/*
-			//след
+			//Г±Г«ГҐГ¤
 			for( zi=0; zi< mobs[i].path.length; zi++ )			{	
 				
 				ctx.beginPath();
@@ -167,7 +167,7 @@ function drawer(  )
 				
 																}
 			
-		//квадрат
+		//ГЄГўГ Г¤Г°Г ГІ
 		ctx.beginPath();
 		ctx.fillStyle = "red";
 		ctx.fillRect(mobs[i].x*step, mobs[i].y*step, step, step);
