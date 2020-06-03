@@ -1,0 +1,22 @@
+<html>
+<head>
+<script src="js/jquery.js"></script>
+<script>
+
+function start()
+{
+alert("!")
+	$('#result').load('test.txt', function() {
+		alert('Load was performed.');
+	});
+
+}
+
+</script>
+</head>
+<body onload="start()">
+
+	<div id="result">123</div>
+	
+</body>
+</html>

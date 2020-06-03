@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="shortcut icon" href="../img/generator.png" />
+	<link rel="shortcut icon" href="img/generator_icon.png" />
 		<meta charset="windows-1251">
 	<title>Генератор лабиринта</title>
-	<script src="../js/jquery.js"></script>
+	<script src="js/jquery.js"></script>
 	<style>
 
 *{
@@ -98,8 +98,6 @@ var matrix;
 var flag = 0;
 var mouseX;
 var mouseY;
-var fill = [  ];
-var fill_mode = 0;
 
 var const_setka = 1;
 var const_rulers = 0;
@@ -112,6 +110,10 @@ $(function() {
 
 function start()
 {
+	var img = new Image();
+	img.src = "img/cover.png";
+	
+
 	canvas = document.getElementById('canvas');
 	ctx = canvas.getContext('2d');
 		document.all.canvas.style.width = poleX * step;
@@ -168,8 +170,6 @@ function load_matrix(  )
 					matrix[ i ][ j ] = parseInt( txt[ j ].split(" ")[i] );
 												}
 										}
-	//очищаем заливку
-	set_fill( 1 );
 }
 
 function cover(  )
@@ -258,7 +258,6 @@ function grid()
 
 function drawer(  )
 {
-	//матрица
 	for( i=0; i< poleX; i++ )		{
 		for( j=0; j< poleY + 1; j++ )			{
 		
@@ -278,18 +277,6 @@ function drawer(  )
 			
 												}
 									}
-									
-	//заливка
-	for( i=0; i< fill.length; i++ )		{
-		ctx.beginPath();
-		
-		if( i == fill.length - 1 )		{ ctx.fillStyle = "darkred"; }
-		else	{ ctx.fillStyle = "red"; }
-		
-		ctx.fillRect(fill[i].x*step, fill[i].y*step, step, step);
-		ctx.closePath();
-		ctx.stroke();
-										}
 }
 
 function get_mouse(  )
@@ -304,29 +291,8 @@ function get_mouse(  )
 	
 	document.all.statusbar.innerHTML = "x: " +x+ " y: " +y;
 	
-	if( flag == 1 )		{ 
-	
-		matrix[ x ][ y ] = 1;
-		
-		/*
-			try {
-					matrix[ poleX - x - 1 ][ poleY - y - 1 ] = 1;
-				}
-			catch(err)	{  }
-		
-		
-			try {
-					//matrix[ poleY - y - 1 ][ poleX - x - 1 ] = 1;
-				}
-			catch(err)	{  }
-		*/
-		
-	}
-	if( flag == 2 )		{ 
-	
-		matrix[ x ][ y ] = 0;
-		
-	}
+	if( flag == 1 )		{ matrix[ x ][ y ] = 1; }
+	if( flag == 2 )		{ matrix[ x ][ y ] = 0; }
 }
 
 function send_mouse( pressed )
@@ -409,10 +375,7 @@ function toggle_splash( zval )
 
 function clean()
 {
-	if( confirm("Очистить холст?") )	{ 
-		create_matrix(  );
-		set_fill( 1 );
-	}
+	if( confirm("Очистить холст?") )	{ create_matrix(  ); }
 }
 
 function toggle_img()
@@ -420,7 +383,6 @@ function toggle_img()
 	zimg = prompt("Введите адрес картинки: ", "");
 		if( !zimg  )	{ return; }
 			document.all.cover.src = zimg;
-			set_opacity();
 }
 
 function click_load()
@@ -435,130 +397,11 @@ function toggle_load()
 		
 }
 
-function set_fill( zval )
-{
-	if( zval == 1 )		{
-		fill_mode = 0;
-		fill = [  ];
-			return;
-						}
-
-	if( fill_mode == 0 )	{
-		fill_mode = 1;
-		fill_me();
-							}
-	else	{
-		set_fill( 1 );
-			}
-}
-
-function fill_me()
-{
-	fill = [ new xyz( 0, 0 ) ];
-
-		for( i=0; i<fill.length; i++ )		{
-			
-			//right
-			try 	{
-				sx = fill[i].x + 1;
-				sy = fill[i].y;
-					if( matrix[ sx ][ sy ] == 0 )		{
-						if( in_fill( sx, sy ) == -1 )		{
-							fill[ fill.length ] = new xyz( sx, sy );
-															}
-													}
-						}
-			catch(err)		{  }
-			
-			//down
-			try 	{
-				sx = fill[i].x;
-				sy = fill[i].y + 1;
-					if( matrix[ sx ][ sy ] == 0 )		{
-						if( in_fill( sx, sy ) == -1 )		{
-							fill[ fill.length ] = new xyz( sx, sy );
-															}
-													}
-						}
-			catch(err)		{  }
-			
-			//left
-			try 	{
-				sx = fill[i].x - 1;
-				sy = fill[i].y;
-					if( matrix[ sx ][ sy ] == 0 )		{
-						if( in_fill( sx, sy ) == -1 )		{
-							fill[ fill.length ] = new xyz( sx, sy );
-															}
-													}
-						}
-			catch(err)		{  }
-			
-			//up
-			try 	{
-				sx = fill[i].x;
-				sy = fill[i].y - 1;
-					if( matrix[ sx ][ sy ] == 0 )		{
-						if( in_fill( sx, sy ) == -1 )		{
-							fill[ fill.length ] = new xyz( sx, sy );
-															}
-													}
-						}
-			catch(err)		{  }
-
-											}
-											
-	if( fill.length < 2 )	{
-		set_fill( 1 );
-	}
-			
-}
-
-function in_fill( zx, zy )
-{
-	for( s=0; s<fill.length; s++ )		{
-		if( parseInt( fill[ s ].x ) == zx && parseInt( fill[ s ].y ) == zy )	{ return s; }
-										}
-	return -1;
-}
-
-function xyz( zx, zy )
-{
-	this.x = parseInt( zx );
-	this.y = parseInt( zy );
-}
-
-function inverse()
-{
- if( !confirm("Инвертировать?") )	{ return; }
- 
-	for( j=0; j<poleY; j++ )	{
-		for( i=0; i<poleX; i++ )		{
-			if( matrix[ i ][ j ] == 1 )		{ matrix[ i ][ j ] = 0; }
-			else	{ matrix[ i ][ j ] = 1; }
-										}
-								}
-	set_fill( 1 );
-}
-
-function toggle_save_img()
-{
-	image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-	//window.location.href=image;
-	
-	//dataURL = canvas.toDataURL("image/jpeg");
-	link = document.createElement("a");
-	link.href = image;
-	link.download = "maze.png";
-	link.click(); 
-
-}
-
 	</script>
 </head>
 <body onLoad="start()" oncontextmenu="return false" onkeyup="keys()">
 
-	<img id="cover">
+	<img src="img/cover.png" id="cover">
 
 	<canvas id="canvas" onmousemove="get_mouse()" onmousedown="send_mouse( 1 ); get_mouse(  );" onmouseup="send_mouse( 0 ); get_mouse(  );" onmouseleave="send_mouse( 0 )" onmousewheel="roll_img(  )" onselectstart="return false;">no canvas</canvas>
 	
@@ -568,11 +411,9 @@ function toggle_save_img()
 		<div class="menu-button" onClick="toggle_setka()">Сетка</div>
 		<div class="menu-button" onClick="toggle_rulers()">Линии</div>
 		<div class="menu-button" onClick="toggle_img()">Фон</div>
-		<div class="menu-button" onClick="set_fill()">Заливка</div>
-		<div class="menu-button" onClick="inverse()">Инверс</div>
+		<div class="menu-button">Заливка</div>
 		<div class="menu-button" onclick="clean()">Очистка</div>
 		<div class="menu-button" onClick="toggle_splash()">Код</div>
-		<div class="menu-button" onClick="toggle_save_img()">Вывод</div>
 		<div class="menu-button" onClick="click_load()" style="display: none;">Загрузить</div>
 			<input type="file" id="button_load" style="display: none;" onChange="toggle_load()">
 	</div>
